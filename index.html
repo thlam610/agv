@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raspberry Pi Camera Stream</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).keydown(function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                $.ajax({
+                    url: '/keyboard_input',
+                    type: 'POST',
+                    data: {key: 'Tab'},
+                    success: function() {
+                        console.log('Status toggled successfully');
+                    },
+                    error: function() {
+                        console.log('Error toggling status');
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+    <div>
+        <h3>Distance Measurements:</h3>
+        <p>Distance 1: {{ distance_1 }} cm</p>
+        <p>Distance 2: {{ distance_2 }} cm</p>
+        <p>Distance 3: {{ distance_3 }} cm</p>
+    </div>
+    <div>
+        <h3>Status:</h3>
+        {% if status == 0 %}
+            <p>Auto Running</p>
+        {% else %}
+            <p>Manual Control</p>
+        {% endif %}
+    </div>
+</body>
+</html>
